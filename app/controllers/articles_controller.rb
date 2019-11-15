@@ -9,8 +9,12 @@ class ArticlesController < ApplicationController
   end
 
   def new
-	  @article = Article.new
-	end
+	@article = Article.new
+  end
+
+  def edit
+  	@article = Article.find(params[:id])
+  end
 	 
 	def create
 	  @article = Article.new(article_params)
@@ -21,8 +25,23 @@ class ArticlesController < ApplicationController
 	    render 'new'
 	  end
 	end
+
+	def update
+	  @article = Article.find(params[:id]) 	
 	 
+	  if @article.update(article_params)
+	    redirect_to @article
+	  else
+	    render 'edit'
+	  end
+	end
+
+	def destroy
+	end
+	 
+	
 	private
+		  
 	  def article_params
 	    params.require(:article).permit(:title, :text)
 	  end
